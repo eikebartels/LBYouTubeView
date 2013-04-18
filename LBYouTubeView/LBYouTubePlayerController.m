@@ -61,7 +61,7 @@
 
 #pragma mark -
 #pragma mark Delegate Calls
-
+ 
 -(void)_didSuccessfullyExtractYouTubeURL:(NSURL *)videoURL {
     if ([self.delegate respondsToSelector:@selector(youTubePlayerViewController:didSuccessfullyExtractYouTubeURL:)]) {
         [self.delegate youTubePlayerViewController:self didSuccessfullyExtractYouTubeURL:videoURL];
@@ -81,7 +81,15 @@
     [self _didSuccessfullyExtractYouTubeURL:videoURL];
     
     self.contentURL = videoURL;
-    [self play];
+    
+    if (self.autoPlay)[self setShouldAutoplay:YES];
+    if (self.inFullScreen){
+        [self setFullscreen:YES animated:YES];
+    }
+
+    
+    //[self play];
+    //[self setFullscreen:YES animated:YES];
 }
 
 -(void)youTubeExtractor:(LBYouTubeExtractor *)extractor failedExtractingYouTubeURLWithError:(NSError *)error {

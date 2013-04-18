@@ -17,6 +17,13 @@
     id <LBYouTubePlayerControllerDelegate> __unsafe_unretained delegate;
 }
 
+
+/// settings
+
+@property (nonatomic, assign) BOOL autoPlay;
+@property (nonatomic, assign) BOOL inFullScreen;
+
+
 @property (nonatomic, strong, readonly) LBYouTubeExtractor* extractor;
 @property (nonatomic, unsafe_unretained) IBOutlet id <LBYouTubePlayerControllerDelegate> delegate;
 
