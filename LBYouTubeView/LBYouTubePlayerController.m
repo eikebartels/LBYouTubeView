@@ -24,6 +24,14 @@
 
 #pragma mark Initialization
 
+-(id)init{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackChange:) name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
+    }
+    return self;
+}
+
 -(id)initWithYouTubeURL:(NSURL *)URL quality:(LBYouTubeVideoQuality)quality {
     NSMutableDictionary* parameters = [NSMutableDictionary new];
     for (NSString* parameter in [URL.query componentsSeparatedByString:@"&"]) {
@@ -50,6 +58,25 @@
     self.extractor = [[LBYouTubeExtractor alloc] initWithURL:URL quality:quality];
     self.extractor.delegate = self;
     [self.extractor startExtracting];
+}
+
+- (void)playbackChange:(NSNotification*)notification{
+    /*
+     MPMoviePlaybackStateStopped,
+     MPMoviePlaybackStatePlaying,
+     MPMoviePlaybackStatePaused,
+     MPMoviePlaybackStateInterrupted,
+     MPMoviePlaybackStateSeekingForward,
+     MPMoviePlaybackStateSeekingBackward
+     */
+    NSLog(@"playbackState: %i",self.playbackState);
+    if (self.playbackState == MPMoviePlaybackStatePlaying) {
+        if (self.inFullScreen) {
+            [self setFullscreen:YES animated:YES];
+        }
+    }
+    
+    
 }
 
 #pragma mark -
